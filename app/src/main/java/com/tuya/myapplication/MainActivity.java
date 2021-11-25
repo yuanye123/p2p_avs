@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int PERMISSION_CODE = 123;
 
     //根据实际项目需要配置
-    private final static String pid = "lrwd3dzceskyn8wc";
-    private final static String uid = "tuya7cf922ea3026bb44";
-    private final static String key = "o8u9Tba38zhB5YZYAaUOjTQFswTlU9if";
+    private final static String pid = "";
+    private final static String uid = "";
+    private final static String key = "";
 
     private String[] requiredPermissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
