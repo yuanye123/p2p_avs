@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.BLUETOOTH_ADMIN,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.BLUETOOTH};
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.RECORD_AUDIO};
 
     private String path = "/sdcard/xsj/";
 
