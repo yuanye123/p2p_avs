@@ -1,18 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_mic_on"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:text="打开mic采集" />
+
+            <Button
+                android:id="@+id/btn_mic_close"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="关闭mic采集" />
+
+            <Button
+                android:id="@+id/btn_mic_status"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="获取mic采集状态" />
+
+            <Button
+                android:id="@+id/btn_play_start"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="设置语音播放开启" />
+
+            <Button
+                android:id="@+id/btn_play_stop"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="设置语音播放关闭" />
+
+            <Button
+                android:id="@+id/btn_play_status"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="获取语音播放状态" />
+
+            <Button
+                android:id="@+id/btn_blue_open"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="设置蓝牙播放打开" />
+
+            <Button
+                android:id="@+id/btn_blue_close"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="设置蓝牙播放关闭" />
+
+            <Button
+                android:id="@+id/btn_blue_status"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="获取蓝牙播放状态" />
+
+            <Button
+                android:id="@+id/btn_vloume_set_value"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="设置音量大小" />
+
+            <Button
+                android:id="@+id/btn_vloume_get_value"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="获取音量大小" />
+
+            <Button
+                android:id="@+id/btn_wakeup"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="唤醒/取消唤醒" />
+
+            <Button
+                android:id="@+id/btn_play_pre"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="向前播放" />
+
+            <Button
+                android:id="@+id/btn_play_next"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="向后播放" />
+
+            <Button
+                android:id="@+id/btn_dnd_start"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="免扰模式开启" />
+
+            <Button
+                android:id="@+id/btn_dnd_stop"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="免扰模式关闭" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
