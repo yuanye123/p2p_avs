@@ -2,7 +2,9 @@ package com.tuya.myapplication;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.tuya.model.UserModel;
 import com.tuya.model.WfGwProdInfoBean;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -34,9 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int PERMISSION_CODE = 123;
 
     //根据实际项目需要配置
-    private final static String pid = "";
-    private final static String uid = "";
-    private final static String key = "";
+    private final static String pid = "lrwd3dzceskyn8wc";
+    private final static String uid = "tuya7cf922ea3026bb44";
+    private final static String key = "o8u9Tba38zhB5YZYAaUOjTQFswTlU9if";
+
+    private final static boolean isSmartScreen = true;
 
     private String[] requiredPermissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -153,6 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void gwActiveStatusCallBack(DataEnum.GW_STATUS_E status) {
                 LogJniApi.INSTANCE.d(TAG, "gwActiveStatusCallBack ++++++ type is " + status);
+                if (DataEnum.GW_STATUS_E.GW_NORMAL == status) {
+                    AvsJniApi.INSTANCE.avs_report_init_state();
+                }
             }
 
             @Override
@@ -226,11 +234,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+
+        if (isSmartScreen) {
+            WebView webView = findViewById(R.id.webview);
+            webView.setVisibility(View.VISIBLE);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setAllowFileAccess(true);
+            webView.loadDataWithBaseURL("file:///android_asset/",
+                    loadHtml(), "text/html", "UTF-8", null);
+        }
+
         //avs初始化
         ret = AvsJniApi.INSTANCE.tuya_avs_init(this, "/sdcard/", new AvsListener() {
             @Override
             public void onUIStatusChange(DataEnum.TUYA_AVS_STAT_TYPE_E status) {
+                LogJniApi.INSTANCE.d(TAG, "onUIStatusChange status is " + status);
+                if (status == DataEnum.TUYA_AVS_STAT_TYPE_E.TUYA_AVS_STAT_TYPE_BINDED) {
 
+                }
             }
         });
         LogJniApi.INSTANCE.d(TAG, "AvsJniApi.INSTANCE.tuya_avs_init error is " + ret);
@@ -249,21 +270,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_wakeup).setOnClickListener(this);
         findViewById(R.id.btn_play_pre).setOnClickListener(this);
         findViewById(R.id.btn_play_next).setOnClickListener(this);
-        findViewById(R.id.btn_dnd_start).setOnClickListener(this);
-        findViewById(R.id.btn_dnd_stop).setOnClickListener(this);
+//        findViewById(R.id.btn_dnd_start).setOnClickListener(this);
+//        findViewById(R.id.btn_dnd_stop).setOnClickListener(this);
         //开启音频数据
         AudioCapture audioCapture = new AudioCapture();
         audioCapture.startCapture();
+
+        AvsJniApi.INSTANCE.handleAvsServer(this);
+    }
+
+    private String loadHtml() {
+        InputStream input = null;
+        int size = 0;
+        try {
+            input = getAssets().open("index.html");
+            size = input.available();
+            byte[] buffer = new byte[size];
+            input.read(buffer);
+            input.close();
+            return new String(buffer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_mic_close:
-                AvsJniApi.INSTANCE.native_setMicrophoneMute(false);
+                int micStop = AvsJniApi.INSTANCE.native_setMicrophoneMute(false);
+                Log.d(TAG, "native_setMicrophoneMute micStop is " + micStop);
                 break;
             case R.id.btn_mic_on:
-                AvsJniApi.INSTANCE.native_setMicrophoneMute(true);
+                int micStart = AvsJniApi.INSTANCE.native_setMicrophoneMute(true);
+                Log.d(TAG, "native_setMicrophoneMute micStart is " + micStart);
                 break;
             case R.id.btn_mic_status:
                 boolean ret = AvsJniApi.INSTANCE.native_isMicrophoneMute();
@@ -301,7 +342,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "当前音量大小为" + volume, Toast.LENGTH_LONG).show();
                 break;
             case R.id.btn_wakeup:
-                AvsJniApi.INSTANCE.native_wakeupToggle();
+                int rett = AvsJniApi.INSTANCE.native_wakeupToggle();
+                LogJniApi.INSTANCE.d(TAG, "native_wakeupToggle ret is " + rett);
                 break;
             case R.id.btn_play_pre:
                 AvsJniApi.INSTANCE.native_playPrev();

@@ -3,6 +3,7 @@ package com.tuya.myapplication;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.util.Log;
 
 import com.tuya.api.AvsJniApi;
 
@@ -17,12 +18,11 @@ public class AudioCapture {
 
 
     public AudioCapture() {
-
         float captureInterval = 1.0f / 25;
-        pcmBufferSize = (int )(8000 * 16 * 1 * captureInterval) / 8;
+        pcmBufferSize = (int )(16000 * 16 * 1 * captureInterval) / 8;
         //必须要有对应的权限 Manifest.permission.RECORD_AUDIO
         audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                8000, AudioFormat.CHANNEL_IN_MONO,
+                16000, AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, pcmBufferSize);
         pcmBuffer = new byte[pcmBufferSize];
     }
@@ -45,6 +45,8 @@ public class AudioCapture {
                         if (len > 0) {
                             //trans audio stream
                             AvsJniApi.INSTANCE.native_feedPcm_asr(pcmBuffer);
+                            AvsJniApi.INSTANCE.native_feedPcm_aec(new byte[len]);
+                            AvsJniApi.INSTANCE.native_feedPcm_silent(new byte[len]);
                         }
                     }
                 }
@@ -56,9 +58,4 @@ public class AudioCapture {
         audioRecord.stop();
         isAudioPush = false;
     }
-
-
-
-
-
 }
